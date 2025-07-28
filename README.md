@@ -1,5 +1,7 @@
 # MCP server for Obsidian
 
+Forked from [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian).
+
 MCP server to interact with Obsidian via the Local REST API community plugin.
 
 <a href="https://glama.ai/mcp/servers/3wko1bhuek"><img width="380" height="200" src="https://glama.ai/mcp/servers/3wko1bhuek/badge" alt="server for Obsidian MCP server" /></a>
@@ -23,6 +25,7 @@ The server implements multiple tools to interact with Obsidian:
 Its good to first instruct Claude to use Obsidian. Then it will always call the tool.
 
 The use prompts like this:
+
 - Get the contents of the last architecture call note and summarize them
 - Search for all files where Azure CosmosDb is mentioned and quickly explain to me the context in which it is mentioned
 - Summarize the last meeting notes and put them into a new note 'summary meeting.md'. Add an introduction so that I can send it via email.
@@ -31,7 +34,7 @@ The use prompts like this:
 
 ### Obsidian REST API Key
 
-There are two ways to configure the environment with the Obsidian REST API Key. 
+There are two ways to configure the environment with the Obsidian REST API Key.
 
 1. Add to server config (preferred)
 
@@ -65,7 +68,7 @@ Note: You can find the key in the Obsidian plugin config.
 
 #### Obsidian REST API
 
-You need the Obsidian REST API community plugin running: https://github.com/coddingtonbear/obsidian-local-rest-api
+You need the Obsidian REST API community plugin running: <https://github.com/coddingtonbear/obsidian-local-rest-api>
 
 Install and enable it in the settings and copy the api key.
 
@@ -93,6 +96,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   }
 }
 ```
+
 </details>
 
 <details>
@@ -113,6 +117,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   }
 }
 ```
+
 </details>
 
 ## Development
@@ -122,6 +127,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 To prepare the package for distribution:
 
 1. Sync dependencies and update lockfile:
+
 ```bash
 uv sync
 ```
