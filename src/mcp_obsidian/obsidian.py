@@ -1,18 +1,24 @@
 import requests
 import urllib.parse
+import os
 from typing import Any
 
 class Obsidian():
     def __init__(
             self, 
             api_key: str,
-            protocol: str = 'https',
-            host: str = "127.0.0.1",
-            port: int = 27124,
+            protocol: str = os.getenv('OBSIDIAN_PROTOCOL', 'https').lower(),
+            host: str = str(os.getenv('OBSIDIAN_HOST', '127.0.0.1')),
+            port: int = int(os.getenv('OBSIDIAN_PORT', '27124')),
             verify_ssl: bool = False,
         ):
         self.api_key = api_key
-        self.protocol = protocol
+        
+        if protocol == 'http':
+            self.protocol = 'http'
+        else:
+            self.protocol = 'https' # Default to https for any other value, including 'https'
+
         self.host = host
         self.port = port
         self.verify_ssl = verify_ssl
@@ -139,6 +145,22 @@ class Obsidian():
             return None
 
         return self._safe_call(call_fn)
+
+    def put_content(self, filepath: str, content: str) -> Any:
+        url = f"{self.get_base_url()}/vault/{filepath}"
+        
+        def call_fn():
+            response = requests.put(
+                url, 
+                headers=self._get_headers() | {'Content-Type': 'text/markdown'}, 
+                data=content,
+                verify=self.verify_ssl,
+                timeout=self.timeout
+            )
+            response.raise_for_status()
+            return None
+
+        return self._safe_call(call_fn)
     
     def delete_file(self, filepath: str) -> Any:
         """Delete a file or directory from the vault.
@@ -172,11 +194,14 @@ class Obsidian():
 
         return self._safe_call(call_fn)
     
-    def get_periodic_note(self, period: str) -> Any:
+    def get_periodic_note(self, period: str, type: str = "content") -> Any:
         """Get current periodic note for the specified period.
         
         Args:
             period: The period type (daily, weekly, monthly, quarterly, yearly)
+            type: Type of the data to get ('content' or 'metadata'). 
+                'content' returns just the content in Markdown format. 
+                'metadata' includes note metadata (including paths, tags, etc.) and the content.. 
             
         Returns:
             Content of the periodic note
@@ -184,7 +209,10 @@ class Obsidian():
         url = f"{self.get_base_url()}/periodic/{period}/"
         
         def call_fn():
-            response = requests.get(url, headers=self._get_headers(), verify=self.verify_ssl, timeout=self.timeout)
+            headers = self._get_headers()
+            if type == "metadata":
+                headers['Accept'] = 'application/vnd.olrapi.note+json'
+            response = requests.get(url, headers=headers, verify=self.verify_ssl, timeout=self.timeout)
             response.raise_for_status()
             
             return response.text

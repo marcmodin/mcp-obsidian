@@ -47,20 +47,26 @@ There are two ways to configure the environment with the Obsidian REST API Key.
     ],
     "env": {
       "OBSIDIAN_API_KEY": "<your_api_key_here>",
-      "OBSIDIAN_HOST": "<your_obsidian_host>"
+      "OBSIDIAN_HOST": "<your_obsidian_host>",
+      "OBSIDIAN_PORT": "<your_obsidian_port>"
     }
   }
 }
 ```
+Sometimes Claude has issues detecting the location of uv / uvx. You can use `which uvx` to find and paste the full path in above config in such cases.
 
-2. Create a `.env` file in the working directory with the following required variable:
+2. Create a `.env` file in the working directory with the following required variables:
 
 ```
 OBSIDIAN_API_KEY=your_api_key_here
 OBSIDIAN_HOST=your_obsidian_host
+OBSIDIAN_PORT=your_obsidian_port
 ```
 
-Note: You can find the key in the Obsidian plugin config.
+Note:
+- You can find the API key in the Obsidian plugin config
+- Default port is 27124 if not specified
+- Default host is 127.0.0.1 if not specified
 
 ## Quickstart
 
@@ -91,7 +97,12 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
         "<dir_to>/mcp-obsidian",
         "run",
         "mcp-obsidian"
-      ]
+      ],
+      "env": {
+        "OBSIDIAN_API_KEY": "<your_api_key_here>",
+        "OBSIDIAN_HOST": "<your_obsidian_host>",
+        "OBSIDIAN_PORT": "<your_obsidian_port>"
+      }
     }
   }
 }
@@ -111,7 +122,9 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
         "mcp-obsidian"
       ],
       "env": {
-        "OBSIDIAN_API_KEY" : "<YOUR_OBSIDIAN_API_KEY>"
+        "OBSIDIAN_API_KEY": "<YOUR_OBSIDIAN_API_KEY>",
+        "OBSIDIAN_HOST": "<your_obsidian_host>",
+        "OBSIDIAN_PORT": "<your_obsidian_port>"
       }
     }
   }
